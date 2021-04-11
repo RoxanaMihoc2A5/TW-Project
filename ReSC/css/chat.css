@@ -34,14 +34,6 @@ body{
         / 400px 2fr;
 }
 
-
-
-
-
-
-
-
-
 /* toate conversatiile adminului, cele din partea stanga */
 .lista-conversatii {
     background:#7851a9;
@@ -100,27 +92,6 @@ body{
     text-overflow: ellipsis;
     
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 .lista-mesajelor {
     grid-area: lista-mesajelor;
