@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <title> ReSC - Admin </title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="The client side application for ReSC ADMIN">
+    <link rel="stylesheet" href="css/index.css">
+    <script src="scripts/emojiMapping.js"></script>
+    <script src="scripts/chatDisplay.js"></script>
+    <script src="scripts/addMessage.js"></script>
+    <script src="scripts/sendMessage.js"></script>
+    <script src="scripts/processMessage.js"></script>
+    <script src="scripts/provideChatsModal.js"></script>
+</head>
+
+<body>
+    <!-- <h1>ReSC - Admin</h1> -->
+    <button class="general-button start-chat-button" type="button" onclick="openChat()"> Load chat </button>
+    <div class="chats-list-wrapper">
+        <div class="chats-modal">
+            <h2> Your chats </h2>
+            <ul>
+                <li class="chat-entry">
+                    <div class="chat-entry-box">
+                        <img class="message-avatar" src="images/avatarMock5.PNG" />
+                        <div class="chat-text-data">
+                            <label class="chat-entry-username">Andrei Popescu</label>
+                            <p class="last-sent-message">Salut! Care e pretul pentru x? Nu e afisat pe site.</p>
+                        </div>
+                        <label class="last-sent-message-timestamp">12:45</label>
+                    </div>
+                </li>
+                <li class="chat-entry">
+                    <div class="chat-entry-box">
+                        <img class="message-avatar" src="images/avatarMock3.PNG" />
+                        <div class="chat-text-data">
+                            <label class="chat-entry-username">Mara Stanciu</label>
+                            <p class="last-sent-message">Buna!</p>
+                        </div>
+                        <label class="last-sent-message-timestamp">12:45</label>
+                    </div>
+                </li>
+                <li class="chat-entry">
+                    <div class="chat-entry-box">
+                        <img class="message-avatar" src="images/avatarMock2.PNG" />
+                        <div class="chat-text-data">
+                            <label class="chat-entry-username">Ana Enache</label>
+                            <p class="last-sent-message">The text-overflow property may be specified using one or two
+                                values. If one value is given, it specifies overflow behavior for the end of the line
+                                (the right end for left-to-right text, the left end for right-to-left text). If two
+                                values are given, the first specifies overflow behavior for the left end of the line,
+                                and the second specifies it for the right end of the line.</p>
+                        </div>
+                        <label class="last-sent-message-timestamp">12:45</label>
+                    </div>
+                </li>
+                <li class="chat-entry">
+                    <div class="chat-entry-box">
+                        <img class="message-avatar" src="images/avatarMock4.PNG" />
+                        <div class="chat-text-data">
+                            <label class="chat-entry-username">Simon Pasca</label>
+                            <p class="last-sent-message">Salut! Care e pretul pentru x? Nu e afisat pe site.</p>
+                        </div>
+                        <label class="last-sent-message-timestamp">12:45</label>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="chat-header invisible">
+        <div class="chat-toolbar">
+            <button class="general-button users-viewer" type="button" onclick="provideChatsModal()"> CHATS </button>
+        </div>
+        <div class="user-info">
+            <h4>Janeta Vasilica Costachel</h4>
+        </div>
+    </div>
+    <div class="chat-wrapper invisible">
+        <ul class="messages-wrapper">
+            <!-- Cele doua elemente <li> sunt doar ca mock-uri si vor fi scoase dupa ce se integreaza partea de comunicare si se vor putea trimite mesaje efectiv -->
+            <li class="single-message-wrapper">
+                <div class="text-wrapper admin">
+                    <img class="message-avatar" src="images/avatarMock.PNG" />
+                    <div class="message admin-message">
+                        <p>Sizzle up your designs with 3D illustrations & diverse avatars</p>
+                        <label class="message-timestamp">12:50</label>
+                    </div>
+                </div>
+            </li>
+
+            <li class="single-message-wrapper">
+                <div class="text-wrapper">
+                    <img class="message-avatar" src="images/avatarMock4.PNG" />
+                    <div class="message">
+                        <p>Sizzle up your designs with 3D illustrations & diverse avatars</p>
+                        <label class="message-timestamp">12:50</label>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <div class="message-input-wrapper">
+            <input type="text" id="message-input" name="message" placeholder="Type a message"
+                oninput="processMessage()" />
+            <button class="general-button send-message-button" type="button" onclick="sendMessage()"> SEND </button>
+        </div>
+    </div>
+</body>
+
+</html>
