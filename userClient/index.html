@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <title> ReSC - Realtime Support Chat </title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="The client side application for ReSC ADMIN">
+    <link rel="stylesheet" href="css/index.css">
+    <script src="scripts/emojiMapping.js"></script>
+    <script src="scripts/chatDisplay.js"></script>
+    <script src="scripts/addMessage.js"></script>
+    <script src="scripts/sendMessage.js"></script>
+    <script src="scripts/processMessage.js"></script>
+</head>
+
+<body>
+    <h1>ReSC - Realtime Support Chat</h1>
+    <button class="general-button start-chat-button" type="button" onclick="openChat()"> Load chat </button>
+    <div class="chat-wrapper invisible">
+        <ul class="messages-wrapper">
+            <!-- Cele doua elemente <li> sunt doar ca mock-uri si vor fi scoase dupa ce se integreaza partea de comunicare si se vor putea trimite mesaje efectiv -->
+            <li class="single-message-wrapper">
+                <div class="text-wrapper admin">
+                    <img class="message-avatar" src="images/avatarMock.PNG" />
+                    <div class="message admin-message">
+                        <p>Sizzle up your designs with 3D illustrations & diverse avatars</p>
+                        <label class="message-timestamp">12:50</label>
+                    </div>
+                </div>
+            </li>
+
+            <li class="single-message-wrapper">
+                <div class="text-wrapper">
+                    <img class="message-avatar" src="images/avatarMock4.PNG" />
+                    <div class="message">
+                        <p>Sizzle up your designs with 3D illustrations & diverse avatars</p>
+                        <label class="message-timestamp">12:50</label>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <div class="message-input-wrapper">
+            <input type="text" id="message-input" name="message" placeholder="Type a message"
+                oninput="processMessage()" />
+            <button class="general-button send-message-button" type="button" onclick="sendMessage()"> SEND </button>
+        </div>
+    </div>
+</body>
+
+</html>
