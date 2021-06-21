@@ -1,0 +1,52 @@
+/* adauga un nou mesaj in chat, avand ca parametri:
+@param messageText: mesajul propriu-zis
+@param userId: id-ul utilizatorului care a scris mesajul
+@param timestamp: UNIX timestamp reprezentand data si ora la care a fost trimis mesajul
+*/
+
+const addMessage = (
+	messageText,
+	userId,
+	timestamp,
+	avatarUrl = 'https://media.healthyfood.com/wp-content/uploads/2017/03/Why-we-like-cherries--500x753.jpg'
+) => {
+	const messagesWrapper = document.querySelector('.messages-wrapper');
+	const message = document.createElement('div');
+
+	const avatarType = JSON.parse(localStorage.getItem('chatSettings')).avatar;
+	const themeType = JSON.parse(localStorage.getItem('chatSettings')).theme;
+
+	localStorage.setItem('lastMessageTimestamp', timestamp);
+	const currentMoment = new Date(timestamp);
+	// daca autorul este admin - adica nu sunt eu, mesajul se va afisa in partea stanga
+	// pozitia si aspectul mesajului sunt definite de clasele .admin si .admin-message a caror aparitie difera in functie de autor
+	if (userId !== JSON.parse(localStorage.getItem('userData')).email) {
+		message.innerHTML = `
+		<li class="single-message-wrapper">
+			<div class="text-wrapper admin">
+				<img class="message-avatar ${avatarType}" src="${avatarUrl}" />
+				<div class="message admin-message ${themeType}">
+					<p>${messageText}</p>
+					<label class="message-timestamp">${`${currentMoment.getHours()}:${currentMoment.getMinutes()}`}</label>
+				</div>
+			</div>
+		</li>
+		`;
+	} else {
+		// altfel, inseamna ca autorul este utilizatorul curent, iar mesajul va aparea in dreapta
+		message.innerHTML = `
+		<li class="single-message-wrapper">
+			<div class="text-wrapper">
+				<img class="message-avatar ${avatarType}" src="${avatarUrl}" />
+				<div class="message ${themeType}">
+					<p>${messageText}</p>
+					<label class="message-timestamp">${`${currentMoment.getHours()}:${currentMoment.getMinutes()}`}</label>
+				</div>
+			</div>
+		</li>
+		`;
+	}
+	messagesWrapper.appendChild(message); // adauga efectiv corpul mesajului in DOM
+	document.querySelector('.chat-wrapper').classList.add(themeType);
+	document.querySelector('.general-close-button').classList.add(themeType);
+};
