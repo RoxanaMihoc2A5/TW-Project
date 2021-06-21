@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <title> ReSC - Realtime Support Chat </title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="The client side application for ReSC">
+    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="css/global.css">
+    <script src="scripts/loginController/login.js"></script>
+</head>
+
+<body>
+    <div class="login-form-wrapper">
+        <h1 class="login-title">Login</h1>
+        <input type="text" class="general-input login-input-field" id="email-field" name="email" placeholder="Email" />
+        <input type="password" class="general-input login-input-field" id="password-field" name="password"
+            placeholder="Password" />
+        <label class="field-validation-error invisible">Email and Password cannot be blank</label>
+        <button class="general-button login-button" type="submit" onclick="login()"> LOGIN </button>
+    </div>
+</body>
+
+</html>
