@@ -1,0 +1,32 @@
+.register-form-wrapper {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
+	margin-top: 10%;
+}
+
+.general-input.register-input-field {
+	margin-bottom: 4px;
+	width: 256px;
+}
+
+.register-title {
+	margin-bottom: 32px;
+}
+
+#email-field,
+#name-field,
+#avatar-field {
+	margin-bottom: 16px;
+}
+
+#password-field {
+	margin-bottom: 24px;
+}
+
+.field-validation-error {
+	min-height: 32px;
+	color: #aa2716;
+	margin-bottom: 8px;
+}

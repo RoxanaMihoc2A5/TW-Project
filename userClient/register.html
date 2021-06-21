@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <title> ReSC - Realtime Support Chat </title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="The client side application for ReSC">
+    <link rel="stylesheet" href="css/register.css">
+    <link rel="stylesheet" href="css/global.css">
+    <script src="scripts/registrationController/register.js"></script>
+</head>
+
+<body>
+    <div class="register-form-wrapper">
+        <h1 class="register-title">Register</h1>
+        <input type="text" class="general-input register-input-field" id="name-field" name="name" placeholder="Name*" />
+        <input type="text" class="general-input register-input-field" id="avatar-field" name="avatar"
+            placeholder="Avatar URL*" />
+        <input type="text" class="general-input register-input-field" id="email-field" name="email"
+            placeholder="Email*" />
+        <input type="password" class="general-input register-input-field" id="password-field" name="password"
+            placeholder="Password*" />
+        <label class="field-validation-error invisible">All fields are mandatory</label>
+        <button class="general-button register-button" type="submit" onclick="register()"> SUBMIT </button>
+    </div>
+</body>
+
+</html>
