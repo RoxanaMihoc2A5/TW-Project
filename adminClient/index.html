@@ -7,103 +7,86 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="The client side application for ReSC ADMIN">
     <link rel="stylesheet" href="css/index.css">
-    <script src="scripts/emojiMapping.js"></script>
-    <script src="scripts/chatDisplay.js"></script>
-    <script src="scripts/addMessage.js"></script>
-    <script src="scripts/sendMessage.js"></script>
-    <script src="scripts/processMessage.js"></script>
-    <script src="scripts/provideChatsModal.js"></script>
+    <link rel="stylesheet" href="css/global.css">
+    <script src="scripts/loginController/checkLoggedIn.js"></script>
+    <script defer src="scripts/messagesController/emojiMapping.js"></script>
+    <script defer src="scripts/messagesController/addMessage.js"></script>
+    <script defer src="scripts/messagesController/sendMessage.js"></script>
+    <script defer src="scripts/messagesController/processMessage.js"></script>
+    <script defer src="scripts/utils/convertJsonToCsv.js"></script>
+    <script defer src="scripts/utils/exportUsersData.js"></script>
+    <script defer src="scripts/utils/provideModals.js"></script>
+    <script defer src="scripts/settingsController/updateSettings.js"></script>
+    <script defer src="scripts/chatController/initializeChat.js"></script>
+    <script defer src="scripts/usersController/retrieveChatUsers.js"></script>
+    <script defer src="scripts/chatController/addChatToList.js"></script>
+    <script defer src="scripts/messagesController/retrieveLastMessage.js"></script>
+    <script defer src="scripts/chatController/chatDisplay.js"></script>
+    <script defer src="scripts/settingsController/applyChatSettings.js"></script>
 </head>
 
 <body>
     <!-- <h1>ReSC - Admin</h1> -->
-    <button class="general-button start-chat-button" type="button" onclick="openChat()"> Load chat </button>
+    <button class="general-button start-chat-button visible-block" type="button" onclick="openChat()"> Load chat
+    </button>
     <div class="chats-list-wrapper">
         <div class="chats-modal">
             <h2> Your chats </h2>
-            <ul>
-                <li class="chat-entry">
-                    <div class="chat-entry-box">
-                        <img class="message-avatar" src="images/avatarMock5.PNG" />
-                        <div class="chat-text-data">
-                            <label class="chat-entry-username">Andrei Popescu</label>
-                            <p class="last-sent-message">Salut! Care e pretul pentru x? Nu e afisat pe site.</p>
-                        </div>
-                        <label class="last-sent-message-timestamp">12:45</label>
-                    </div>
-                </li>
-                <li class="chat-entry">
-                    <div class="chat-entry-box">
-                        <img class="message-avatar" src="images/avatarMock3.PNG" />
-                        <div class="chat-text-data">
-                            <label class="chat-entry-username">Mara Stanciu</label>
-                            <p class="last-sent-message">Buna!</p>
-                        </div>
-                        <label class="last-sent-message-timestamp">12:45</label>
-                    </div>
-                </li>
-                <li class="chat-entry">
-                    <div class="chat-entry-box">
-                        <img class="message-avatar" src="images/avatarMock2.PNG" />
-                        <div class="chat-text-data">
-                            <label class="chat-entry-username">Ana Enache</label>
-                            <p class="last-sent-message">The text-overflow property may be specified using one or two
-                                values. If one value is given, it specifies overflow behavior for the end of the line
-                                (the right end for left-to-right text, the left end for right-to-left text). If two
-                                values are given, the first specifies overflow behavior for the left end of the line,
-                                and the second specifies it for the right end of the line.</p>
-                        </div>
-                        <label class="last-sent-message-timestamp">12:45</label>
-                    </div>
-                </li>
-                <li class="chat-entry">
-                    <div class="chat-entry-box">
-                        <img class="message-avatar" src="images/avatarMock4.PNG" />
-                        <div class="chat-text-data">
-                            <label class="chat-entry-username">Simon Pasca</label>
-                            <p class="last-sent-message">Salut! Care e pretul pentru x? Nu e afisat pe site.</p>
-                        </div>
-                        <label class="last-sent-message-timestamp">12:45</label>
-                    </div>
-                </li>
+            <ul class="chat-entry-list">
             </ul>
         </div>
     </div>
     <div class="chat-header invisible">
         <div class="chat-toolbar">
             <button class="general-button users-viewer" type="button" onclick="provideChatsModal()"> CHATS </button>
+            <button class="general-button settings-viewer" type="button" onclick="provideSettingsModal()"> SETTINGS
+            </button>
+            <button class="general-button export-data" type="button" onclick="exportUsersData()"> EXPORT </button>
         </div>
         <div class="user-info">
-            <h4>Janeta Vasilica Costachel</h4>
+            <h4 class="chat-partner-id"></h4>
         </div>
     </div>
     <div class="chat-wrapper invisible">
         <ul class="messages-wrapper">
-            <!-- Cele doua elemente <li> sunt doar ca mock-uri si vor fi scoase dupa ce se integreaza partea de comunicare si se vor putea trimite mesaje efectiv -->
-            <li class="single-message-wrapper">
-                <div class="text-wrapper admin">
-                    <img class="message-avatar" src="images/avatarMock.PNG" />
-                    <div class="message admin-message">
-                        <p>Sizzle up your designs with 3D illustrations & diverse avatars</p>
-                        <label class="message-timestamp">12:50</label>
-                    </div>
-                </div>
-            </li>
 
-            <li class="single-message-wrapper">
-                <div class="text-wrapper">
-                    <img class="message-avatar" src="images/avatarMock4.PNG" />
-                    <div class="message">
-                        <p>Sizzle up your designs with 3D illustrations & diverse avatars</p>
-                        <label class="message-timestamp">12:50</label>
-                    </div>
-                </div>
-            </li>
         </ul>
         <div class="message-input-wrapper">
-            <input type="text" id="message-input" name="message" placeholder="Type a message"
+            <input type="text" class="general-input" id="message-input" name="message" placeholder="Type a message"
                 oninput="processMessage()" />
             <button class="general-button send-message-button" type="button" onclick="sendMessage()"> SEND </button>
+            <button class="emoji-suggestion-button" type="button" onclick="replaceLastWordWithEmoji()"></button>
+        </div>
+    </div>
+
+    <div class="settings-wrapper">
+        <div class="settings-modal">
+            <h2> Settings </h2>
+            <ul class="chat-entry-list">
+                <li class="settings-option">
+                    <label for="theme">Theme</label>
+                    <select name="theme" id="theme">
+                        <option value="primary">Primary</option>
+                        <option value="secondary">Secondary</option>
+                    </select>
+                </li>
+                <li class="settings-option">
+                    <label for="position">Position</label>
+                    <select name="position" id="position">
+                        <option value="right">Right</option>
+                        <option value="left">Left</option>
+                    </select>
+                </li>
+                <li class="settings-option">
+                    <label for="avatars">Avatars aspect</label>
+                    <select name="avatars" id="avatars">
+                        <option value="circle">Circle</option>
+                        <option value="square">Square</option>
+                    </select>
+                </li>
+            </ul>
+            <button class="general-button submit-settings-button" type="submit" onclick="updateSettings()"> UPDATE
+            </button>
         </div>
     </div>
 </body>
