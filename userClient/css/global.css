@@ -1,0 +1,84 @@
+body {
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 8px 16px;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+		Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+	color: #1f1d26;
+}
+
+::-webkit-scrollbar {
+	width: 8px;
+}
+
+::-webkit-scrollbar-track {
+	background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: #5c5c5c;
+	border-radius: 4px;
+}
+
+p {
+	margin: 0;
+}
+
+button {
+	outline: none;
+}
+
+.general-button {
+	height: 32px;
+	min-width: 72px;
+	border: none;
+	border-radius: 4px;
+	background-color: #2d2e30;
+	color: #e9e4f7;
+	cursor: pointer;
+}
+
+.general-close-button {
+	width: 48px;
+	height: 48px;
+	position: absolute;
+	top: -16px;
+	left: -16px;
+	border: none;
+	border-radius: 30%;
+	cursor: pointer;
+	background-color: #5235a1;
+	color: #e9e4f7;
+}
+
+.general-close-button.primary {
+	background-color: #5235a1;
+}
+
+.general-close-button.secondary {
+	background-color: #10797c;
+}
+
+.general-input {
+	width: 100%;
+	height: 32px;
+	border: none;
+	border-radius: 4px;
+	padding: 0 8px;
+	margin-right: 8px;
+	border: 1px solid #5235a1;
+}
+
+.invisible {
+	display: none;
+}
+
+.visible {
+	display: flex;
+}
+
+.visible-block {
+	display: block;
+}
