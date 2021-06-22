@@ -23,6 +23,7 @@
     <script defer src="scripts/messagesController/retrieveLastMessage.js"></script>
     <script defer src="scripts/chatController/chatDisplay.js"></script>
     <script defer src="scripts/settingsController/applyChatSettings.js"></script>
+    <script defer src="scripts/utils/downloadableUserScript.js"></script>
 </head>
 
 <body>
@@ -42,6 +43,7 @@
             <button class="general-button settings-viewer" type="button" onclick="provideSettingsModal()"> SETTINGS
             </button>
             <button class="general-button export-data" type="button" onclick="exportUsersData()"> EXPORT </button>
+            <button class="general-button export-user-script" type="button" onclick="exportUserScript()"> EXPORT USER SCRIPT </button>
         </div>
         <div class="user-info">
             <h4 class="chat-partner-id"></h4>
