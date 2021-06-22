@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="ro" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Realtime Support Chat - Documentation</title>
+   
+    <link rel="stylesheet" href="docs.css" />
+</head>
+
+<body prefix="schema: http://schema.org">
+    <header>
+        <h1> Realtime Support Chat - Documentation</h1>
+    </header>
+    <div class="top-info" role="contentinfo">
+        
+        <dl>
+            <dt>Grupa</dt>
+                <dd>
+                   2A5
+                </dd>
+                <dt>Autori</dt>
+                <dd>
+                   Dumea Alice-Lenuța &amp; Mihoc Roxana-Gabriela &amp; Sima Clara-Daniela
+                </dd>
+                <dt>GitHub</dt>
+                <dd>
+                   <a href="https://github.com/RoxanaMihoc2A5/TW-Project">https://github.com/RoxanaMihoc2A5/TW-Project</a>
+                </dd>
+             </dl>
+            
+        </dd>
+    </div>
+
+    <section typeof="sa:Abstract" id="abstract" role="doc-abstract">
+        <h2><span>1. </span>Cerință</h2>
+        <p>
+            Scopul produsului este de a crea o aplicaţie Web prin care administratorii unei aplicaţii pot să comunice în timp real – 1 la 1 sau 1 la N – cu utilizatorii. Mai exact, aceştia vor încărca într-un site Web un script extern JS ce va adăuga în pagină un chat. Clienţii pot configura diverse proprietăţi ale chat-ului, cum ar fi: tema de culori, poziţia în pagină, maniera de afişare a fiecărui avatar, gruparea sau nu a conversaţiilor în funcţie de perioada de timp sau de subiect. Unele cuvinte ale mesajelor vor putea fi convertite automat în emoji (e.g., în loc de “floare”, se va plasa 🌼).
+        </p>
+    </section>
+
+    <section id="introduction">
+        <h2><span>2. </span>Introducere</h2>
+        <p>
+            Scopul este de a dezvolta o aplicaţie web prin care administratorii unui site pot comunica cu vizitatorii site-ului.
+        </p>
+    </section>
+
+    <section id="architecture">
+        <h2><span>3. </span>Arhitectura aplicației</h2>
+        <p>
+            Arhitectura aplicatiei se poate vedea in figura de mai jos. API-ul REST este scris in NodeJS
+            si ruleaza independent ca un serviciu, aici este centralizat accessul aplicatiilor client.
+          </p>
+          <p>
+            Datele necesare rularii aplicatiei sunt stocate in Cloud Firestore, aici sunt retinute
+            mesajele dintre clienti si admini, informatiile despre utilizatori cat si setarile
+            personalizate ale chat-ului.
+          </p>
+          <img src="architecture.png"  />
+      <figcaption>Arhitectura aplicatiei</figcaption>
+
+    </section>
+
+    <section id="tehnologii">
+        <h2><span>4.</span> Tehnologii si concepte folosite</h2>
+        <p>Urmatoarele tehnologii si concepte au fost folosite:</p>
+        <ul>
+          <li>
+            <b>NodeJS</b> - Pentru a mentine acelasi limbaj de programare atat pe frontend cat si pe
+            backend am folosit runtime-ul NodeJS
+          </li>
+          <li>
+            <b>Cloud Firestore</b> - Am ales o baza de data nerelationala (NoSQL) in cloud pentru a nu
+            exista overhead-ul de a folosi un Object Relational Mapper (ORM), in plus, faptul ca am
+            folosit o baza de data in cloud a usurat procesul de dezvoltare deoarece am avut datele
+            sincronizate indiferent de masina pe care rula aplicatia.
+          </li>
+          <li>
+            <b>AJAX</b> - Pentru a putea modifica pagina in mod dinamic s-a folosit API-ul fetch, am
+            dorit ca datele sa fie preluate asincron de catre JavaScript pentru a nu fi nevoie de a
+            reincarca pagina de fiecare data cand se preluau noi date.
+          </li>
+          <li>
+            <b>CSV</b> - Am adaugat optiunea de a putea exporta mesajele unei conversatii in format
+            CSV.
+          </li>
+          <li>
+            <b>JSON Web Tokens (JWT)</b> - Aceste token-uri s-au folosit pentru a securiza API-ul
+            astfel incat doar utilizatorii autorizati au access la anumite resurse.
+          </li>
+          <li>
+            <b>OpenAPI Specification</b> - Pentru a vizualiza mai usor modul de access al datelor
+            aplicatiei am construit o specificatie al API-ului.
+          </li>
+        </ul>
+      </section>
+
+    <section id="api">
+        <h2><span>5. </span>API</h2>
+
+        
+    <p>
+      In contextul API-ului, datele utilizatorilor se afla sub colectia <code>/users</code>. Urmatoarele date
+      apartin fiecarui utilizator:
+    </p>
+
+    <ul>
+      <li><b>avatar_link</b> - Un link ce contine continut media de tip imagine</li>
+      <li><b>name</b> - Numele utilizatorului</li>
+      <li><b>email</b> - Email-ul utilizatorului, utilizat ca un identificator unic al sau</li>
+      <li>
+        <b>password</b> - Parola utilizatorului in format hexadecimal dupa executarea algoritmului
+        SHA256
+      </li>
+      <li>
+        <b>admin</b> - Camp boolean cu valoarea true care apare doar la utilizatorii de tip admin
+      </li>
+    </ul>
+
+    <p>
+      In cadrul utilizatorilor se remarca endpoint-ul POST <code>/users</code>, care serveste ca
+      un punct unde se inregistreaza utilizatorii. Pentru login se foloseste endpoint-ul
+      <code>/login</code>, unde ca date sunt necesare email-ul si parola utilizatorului iar in caz
+      de potrivire a credentialelor se va returna un JWT.
+    </p>
+
+    <p>
+      Urmatoarele colectii, subcolectii si resurse mentionate definesc modul de functionare al
+      mesajelor. Resursa care se gaseste la endpoint-ul <code>/chats/{adminId}</code> reprezinta
+      un array de ID-uri ale utilizatorilor cu care admin-ul cu ID-ul <code>{adminId}</code> are
+      mesaje. Intuitiv, colectia reprezentata de endpoint-ul
+      <code>/chats/{adminId}/{userId}</code> reprezinta mesajele intre admin-ul cu ID
+      <code>{adminId}</code> si utilizatorul cu ID <code>{userId}</code>. Mai mult, resursa gasita
+      la endpoint-ul <code>/chats/{adminId}/{userId}/{messageId}</code> este mesajul cu id
+      <code>{messageId}</code> dintre conversatia intre admin-ul cu ID <code>{adminId}</code> si
+      utilizatorul cu ID <code>{userId}</code>
+    </p>
+ 
+
+    </section>
+
+    <section id="pages">
+        <h2><span>6. </span>Paginile aplicației Web</h2>
+
+        <section id="pages-login">
+            <h3><span>6.1 </span>Login</h3>
+            <p>
+                Atât administratorul cât și utilizatorii au posibilitatea de a se loga într-un cont.
+                
+            </p>
+
+            <img src="login.png" alt="login" class="img-ss">
+            <img src="login(2).png" alt="login" class="img-ss">
+        </section>
+
+
+        <section id="pages-register">
+            <h3><span>6.2 </span>Register</h3>
+            <p>
+                Register: In aceasta pagina își pot crea un cont utilizatorii aplicației. Pentru a face aceasta este necesara completarea tuturor celor patru câmpuri: Nume, avatar (unde va fi încărcat un link către o poza aleasa de utilizator), adresa de email și o parola.
+            </p>
+
+            <img class="img-ss" src="register.png" alt="Register">
+
+            
+
+        </section>
+
+        <section id="pages-user">
+            <h3><span>6.3 </span>Pagina Utilizatorului</h3>
+             <p>
+                Interfața userului: In aceasta pagina se incarca chatul pentru client de unde poate contacta administratorul site-ului. Acest chat apare în funcție de preferințele configurate in prealabil de către administrator.
+             </p>
+            
+            <img src="pagina-chat.png" alt="page" >
+            <img src="3.png" alt="pagee" class="img-ss">
+
+            <h4>Butoane</h4>
+
+            <img src="chatbutton.png" alt="Chat-Button" id="button">
+            ;<figcaption>Butonul care afiseaza chatul</figcaption>
+
+
+            
+            
+
+        </section>
+        <section id="pages-user">
+            <h3><span>6.4 </span>Pagina Administratorului</h3>
+            <p>
+                Interfața administratorului: In aceasta pagină se afla toate funcționalitățile pe care le are la dispoziție administratorul.
+            </p>
+
+            
+            
+            <img src="1.png" alt="page" >
+            <img src="4.png" alt="page" >
+
+            <h4>Butoane</h4>
+            <p>Din butonul "CHATS" administratorul poate vedea toate conversațiile și o poate selecta pe cea dorita.</p>
+            <img src="chats.png" alt="Chat-Button"  id="button">
+            <img src="lista.png" alt="Lista-chat"  >
+            
+           
+            <p>Butonul "EXPORT" are rolul de a livra administratorului un document în format CSV cu date despre utilizatori.</p>
+            <img src="export.png" alt="export" id="button">
+
+            
+            <p>Pentru a exporta scriptul necesar pentru punerea în pagina a chatului este suficient să apăsați butonul "EXPORT USER SCRIPT".</p>
+    
+            <img src="exportjs.png" alt="exportjs" id="button">
+            
+            <p>Butonul "SETTINGS" pune la dispoziția administratorului o serie de setări pentru configurarea aplicației sale și a clientului. Acesta poate seta tema de culori, pozitia în pagina a chatului clientului cât și aspectul avatarului. </p>
+            <img src="set.png" alt="settings"id="button" >
+            
+
+            <img src="settings.png" alt="Settings" >
+
+            <h3><span>6.5 </span>Paginile sunt Responsive</h3>
+            <img src="22.png" alt="Settings"  >
+            <img src="23.png" alt="Settings"  >
+
+            <section id="Performanta">
+              <h2> <span>7.</span> Performanta</h2>
+              <p>Rezultatele testului Lighthouse obtinute pentru aplicatia administratorului si pentru cea a clientilor </p>
+              <img src="lighthouse_test.PNG" style="margin-bottom: 16px" alt="lighthouse test on client" />
+              <img src="lighthouse_test2.PNG" alt="lighthouse test on admin" />
+            </section>
+    
+
+            
+
+            
+
+
+
+
+            
+            
+
+        </section>
+    </section>
+
+
+
+    <section id="references">
+        <h2><span>8. </span>Referințe</h2>
+        
+       <dt id="ref-pava">Site Alexandru Pavaloi</dt>
+       <dd property="schema:citation" typeof="schema:WebPage" resource="https://iampava.com/slides/web-technologies-2021">
+          <cite property="schema:name">
+          <a href="https://iampava.com/slides/web-technologies-2021">Site Alexandru Pavaloi</a>
+          </cite>.
+       </dd>
+       <dt id="ref-scholarly">Scholarly HTML</dt>
+       <dd property="schema:citation" typeof="schema:WebPage" resource="https://w3c.github.io/scholarly-html/">
+          <cite property="schema:name">
+          <a href="https://w3c.github.io/scholarly-html/">https://w3c.github.io/scholarly-html/</a>
+          </cite>.
+       </dd>
+       <dt id="ref-busaco">Site Proiecte TW</dt>
+       <dd property="schema:citation" typeof="schema:WebPage" resource="https://profs.info.uaic.ro/~busaco/teach/courses/web/web-projects.html">
+          <cite property="schema:name">
+          <a href="https://profs.info.uaic.ro/~busaco/teach/courses/web/web-projects.html">https://profs.info.uaic.ro/~busaco/teach/courses/web/web-projects.html</a>
+          </cite>.
+       </dd>
+       <dt id="ref-mdn">MDN</dt>
+       <dd property="schema:citation" typeof="schema:WebPage" resource="https://developer.mozilla.org/en-US/">
+          <cite property="schema:name">
+          <a href="https://developer.mozilla.org/en-US/">https://developer.mozilla.org/en-US/</a>
+          </cite>.
+       </dd>
+       <dt id="ref-drift">Inspiratie  - Drift</dt>
+       <dd property="schema:citation" typeof="schema:WebPage" resource="https://www.drift.com/">
+          <cite property="schema:name">
+          <a href="https://www.drift.com/Y">https://www.drift.com/</a>
+          </cite>.
+       </dd>
+       <dt id="ref-firebase"> Firebase </dt>
+       <dd property="schema:citation" typeof="schema:WebPage" resource="https://firebase.google.com/?gclid=CjwKCAjw8cCGBhB6EiwAgORey-7xY2ui5pYOB80uTAiv04gjUW-641c6kkObTjth6CLN7mew87qKOBoCamAQAvD_BwE&gclsrc=aw.ds">
+          <cite property="schema:name">
+          <a href="https://firebase.google.com/?gclid=CjwKCAjw8cCGBhB6EiwAgORey-7xY2ui5pYOB80uTAiv04gjUW-641c6kkObTjth6CLN7mew87qKOBoCamAQAvD_BwE&gclsrc=aw.ds">https://www.firebase.com/</a>
+          </cite>.
+       </dd>
+       <dt id="ref-swagg">Swagger</dt>
+       <dd property="schema:citation" typeof="schema:WebPage" resource="https://editor.swagger.io/">
+          <cite property="schema:name">
+          <a href="https://editor.swagger.io/">https://editor.swagger.io/</a>
+          </cite>.
+       </dd>
+       <dt id="ref-jwt">JWT</dt>
+       <dd property="schema:citation" typeof="schema:WebPage" resource="https://jwt.io/">
+          <cite property="schema:name">
+          <a href="https://jwt.io/">https://jwt.io/</a>
+          </cite>.
+       </dd>
+
+    </section>
+
+    
+
+</body>
+
+</html>
