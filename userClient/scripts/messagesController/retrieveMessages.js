@@ -59,4 +59,4 @@ const retrieveMessages = (limit = 9999) => {
 };
 
 retrieveMessages();
-// setInterval(() => retrieveMessages((limit = 1)), 3000);
+setInterval(() => retrieveMessages((limit = 1)), 3000);
