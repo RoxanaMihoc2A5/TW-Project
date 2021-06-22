@@ -1,0 +1,151 @@
+.start-chat-button {
+	position: fixed;
+	bottom: 16px;
+	right: 16px;
+}
+
+.start-chat-button.left {
+	left: 24px;
+	right: auto;
+}
+
+.start-chat-button.right {
+	left: auto;
+	right: 16px;
+}
+
+.chat-wrapper {
+	background-color: #d9d3f2;
+	min-height: 80vh;
+	height: 80vh;
+	border-radius: 8px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	position: fixed;
+	bottom: 16px;
+	right: 16px;
+	max-width: 320px;
+}
+
+.chat-wrapper.left {
+	left: 24px;
+	right: auto;
+}
+
+.chat-wrapper.right {
+	left: auto;
+	right: 16px;
+}
+
+.chat-wrapper.primary {
+	background-color: #d9d3f2;
+}
+
+.chat-wrapper.secondary {
+	background-color: #d3e9f2;
+}
+
+@media screen and (min-width: 768px) {
+	.chat-wrapper {
+		max-width: 360px;
+	}
+}
+
+.messages-wrapper {
+	padding: 8px;
+	overflow: auto;
+}
+
+.single-message-wrapper {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-items: flex-start;
+}
+
+.message-avatar {
+	width: 48px;
+	height: 48px;
+}
+
+.message-avatar.circle {
+	border-radius: 50%;
+}
+.message-avatar.square {
+	border-radius: 4px;
+}
+
+.text-wrapper {
+	display: flex;
+	flex-direction: row-reverse;
+	justify-content: space-around;
+	align-self: flex-end;
+	align-items: flex-end;
+}
+
+.admin {
+	flex-direction: row;
+	align-self: flex-start;
+}
+
+.message {
+	background-color: #674cb5;
+	text-align: right;
+	padding: 6px;
+	border-radius: 8px 8px 0 8px;
+	color: #e9e4f7;
+	margin: 8px;
+	list-style-type: none;
+}
+
+.message.primary {
+	background-color: #674cb5;
+}
+
+.message.secondary {
+	background-color: #10797c;
+}
+
+.admin-message {
+	background-color: #baabe6;
+	text-align: left;
+	border-radius: 8px 8px 8px 0;
+	color: #1f1d26;
+}
+
+.admin-message.primary {
+	background-color: #baabe6;
+}
+
+.admin-message.secondary {
+	background-color: #abd8e6;
+}
+
+.message-timestamp {
+	display: inline-block;
+	margin-top: 8px;
+	opacity: 75%;
+}
+
+.message-input-wrapper {
+	margin: 8px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: start;
+}
+
+.emoji-suggestion-button {
+	width: 32px;
+	height: 32px;
+	position: absolute;
+	bottom: 48px;
+	left: 8px;
+	border: none;
+	border-radius: 10%;
+	cursor: pointer;
+	background-color: #3a3b39;
+	color: #e9e4f7;
+	display: none;
+}

@@ -31,9 +31,13 @@ const initializeChat = async (partnerId) => {
 			console.log('Messages could not be retrieved', error);
 		})
 		.finally(() => {
-			// setInterval(() => {
-			// 	retrieveLastMessage();
-			// }, 3000);
+			setTimeout(
+				() =>
+					setInterval(() => {
+						retrieveLastMessage();
+					}, 3000),
+				5000
+			);
 		});
 
 	chatsListWrapper.style.display = 'none';
