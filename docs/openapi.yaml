@@ -1,0 +1,413 @@
+openapi: 3.0.0
+
+info:
+  title: ReSC API
+  version: 1.0.0
+  
+servers:
+  - url: http://localhost:8000
+  - url: http://127.0.0.1:8000
+  
+  
+components:
+  securitySchemes:
+    token:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      
+  responses:
+    Unauthenticated:
+      description: Unauthenticated
+      content:
+        application/json:
+          schema:
+            $ref : "#/components/schemas/error"
+            
+  schemas:
+    error:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Failed authorization
+          
+    user:
+      type: object
+      properties: 
+        admin:
+          type: boolean
+          example: false
+        avatar_link:
+          type: string
+          example: 'https://static.libertyprim.com/files/familles/peche-large.jpg'
+        name:
+          type: string
+          example: John Doe
+        email:
+          type: string
+          example: johndoe@gmail.com
+          
+    message:
+      type: object
+      properties:
+        data: 
+          type: string
+          example: text message data
+        timestamp:
+          type: number
+          example: timestamp
+        userId:
+          type: string
+          example: johndoe@gmail.com
+        id:
+          type: string
+          example: 10qE3G8W45D0dZ7spSvx
+    
+paths:
+  /users:
+    get:
+      tags:
+        - users
+      summary: GET /users
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: 
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/user"
+    post:
+      tags:
+        - users
+      summary: POST /users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                avatar_link: /ionica.jpg
+                email: utilizator@gmail.com321
+                name: Uti Lizator
+                password: parola
+      responses:
+        '201':
+          description: Registered user
+          content:
+            application/json: {}
+        '400':
+          description: Client error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        '409':
+          description: User with specified ID already exists
+          content:
+            application/json: 
+              schema:
+                $ref: "#/components/schemas/error"
+            
+    delete:
+      tags:
+        - users
+      summary: DELETE /users
+      responses:
+        '405':
+          description: Can't delete collection
+          content:
+            application/json: 
+              schema:
+                $ref: "#/components/schemas/error"
+    
+            
+  /users/{userId}:
+    parameters:
+      - in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+          example: johndoe@example.com
+          
+    get:
+      tags:
+        - users/{userId}
+      summary: GET /users/{userId}
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: 
+              schema:
+                $ref: "#/components/schemas/user"
+        '404':
+          description: User with specified ID doesn't exist
+          content:
+            application/json: 
+              schema:
+                $ref: "#/components/schemas/error"
+
+    put:
+      tags:
+        - users/{userId}
+      summary: PUT /users/{userId}
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: ionicaaaa@gmail.om
+                avatar_link: /image.jpg
+                name: Ionica123
+                password: ana are mere
+
+      responses:
+        '200':
+          description: User modified
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/user"
+        '201':
+          description: User created
+          content:
+            application/json: 
+              schema:
+                $ref: "#/components/schemas/user"
+        '400':
+          description: Client error
+          content:
+            application/json: 
+              schema:
+                $ref: "#/components/schemas/error"
+
+    delete:
+      tags:
+        - users/{userId}
+      summary: DELETE /users/{userId}
+      responses:
+        '204':
+          description: Successful user deletion
+        '404':
+          description: User with specified ID not found
+          content:
+            application/json: 
+              schema:
+                $ref: "#/components/schemas/error"
+                
+  /login:
+    post:
+      tags:
+        - login
+      summary: POST /login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: johndoe@gmail.com
+                password: password
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: 
+              schema:
+                type: object
+                properties:
+                  jwt:
+                    type: string
+                    example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImlvbmljYTEyM0BnbWFpbC5jb20iLCJhdmF0YXJfbGluayI6Imh0dHBzOi8vc3RhdGljLmxpYmVydHlwcmltLmNvbS9maWxlcy9mYW1pbGxlcy9wZWNoZS1sYXJnZS5qcGciLCJuYW1lIjoiSW9uaWNhIFBvcGVzY3UiLCJpYXQiOjE2MjQyODQwMzR9.4qgm7gg5RL_toDu6SuSfOxKhGfOWfAMgg-8gLfiZ00k'
+        '400':
+          description: Failed data validation
+          content:
+            application/json: 
+              schema:
+                $ref: "#/components/schemas/error"
+        '401':
+          description: Incorrect password
+          content:
+            application/json: 
+              schema:
+                $ref: "#/components/schemas/error"
+        '404':
+          description: User with specified ID not found
+          content:
+            application/json: 
+              schema:
+                $ref: "#/components/schemas/error"
+
+  /chats/{adminId}:
+    parameters:
+      - in: path
+        name: adminId
+        required: true
+        schema:
+          type: string
+          example: admin@example.com
+  
+    get:
+      tags:
+        - chats/{adminId}
+      summary: GET /chats/{adminId}
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: 
+              schema:
+                type: array
+                items: 
+                  type: string
+                  example: johndoe@example.com
+                
+            
+  /chats/{adminId}/{userId}:
+    parameters:
+      - in: path
+        name: adminId
+        required: true
+        schema:
+          type: string
+          example: adminexample.com
+      - in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+          example: johndoe@example.com
+  
+    get:
+      tags:
+        - chats/{adminId}/{userId}
+      summary: GET /chats/{adminId}/{userId}
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: 
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/message"
+                  
+    post:
+      tags:
+        - chats/{adminId}/{userId}
+      summary: POST /chats/{adminId}/{userId}
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                userId: utilizator@gmail.com
+                data: lorem ipsum dolor sit amett
+                timestamp: 4573586385673486300
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json: 
+              schema:
+                $ref: "#/components/schemas/message"
+            
+        '400':
+          description: Failed data validation
+          content:
+            application/json: 
+              schema:
+                $ref: "#/components/schemas/error"
+                
+  /chats/{adminId}/{userId}/{messageId}:
+    parameters:
+      - in: path
+        name: adminId
+        required: true
+        schema:
+          type: string
+          example: adminexample.com
+      - in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+          example: johndoe@example.com
+      - in: path
+        name: messageId
+        required: true
+        schema:
+          type: string
+          example: 10qE3G8W45D0dZ7spSvx
+
+    get:
+      tags:
+        - chats/{adminId}/{userId}/{messageId}
+      summary: GET /chats/{adminId}/{userId}/{messageId}
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/message"
+        '404':
+          description: Message with specified ID not found
+          content:
+            application/json: 
+              schema:
+                $ref: "#/components/schemas/error"
+
+            
+    put:
+      tags:
+        - chats/{adminId}/{userId}/{messageId}
+      summary: GET /chats/{adminId}/{userId}/{messageId}
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                userId: utilizator@gmail.com
+                data: ana are doua mereeeee
+                timestamp: 1624216877390
+      responses:
+        '200':
+          description: Successfully updated message
+          content:
+            application/json: 
+              schema:
+                $ref: "#/components/schemas/message"
+        '201':
+          description: Successfully created message
+          content:
+            application/json: 
+              schema:
+                $ref: "#/components/schemas/message"
+        '400':
+          description: Failed data validation
+          content:
+            application/json: 
+              schema:
+                $ref: "#/components/schemas/error"
+            
+    delete:
+      tags:
+        - chats/{adminId}/{userId}/{messageId}
+      summary: DELETE /chats/{adminId}/{userId}/{messageId}
+      responses:
+        '204':
+          description: Message successfully deleted
+        '404':
+          description: Message with specified ID not found
+          content:
+            application/json: 
+                schema:
+                  $ref: "#/components/schemas/error"
